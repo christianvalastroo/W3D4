@@ -1,8 +1,11 @@
 const filterSelect = document.querySelector("#filterSelect")
 const searchInput = document.querySelector("#searchInput")
-const  usersTable = document.querySelector("#usersTable")
+const usersTable = document.querySelector("#usersTable")
+const loading = document.querySelector("#loading")
 
 let users = []
+
+loading.classList.remove("d-none")
 
 const renderUsers = (usersToRender) => {
     usersTable.innerHTML = ""
@@ -42,10 +45,24 @@ searchInput.addEventListener("input", () => {
     renderUsers(usersFiltered)
 })
 
-   console.log(users)
 
     } catch(error) {
         console.log(error)
+
+        usersTable.innerHTML = ""
+
+        const tr = document.createElement("tr")
+        const td = document.createElement("td")
+
+        td.colSpan = 3
+        td.textContent = `Errore nel caricamento utenti`
+        td.classList.add("text-center", "text-danger")
+
+        tr.appendChild(td)
+        usersTable.appendChild(tr)
+
+    } finally {
+        loading.classList.add("d-none")
     }
     
     
